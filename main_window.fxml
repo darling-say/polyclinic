@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="20"
+      style="-fx-padding: 20;">
+
+    <Label text="Система регистратуры поликлиники"
+           style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+    <Button text="Список врачей"
+            style="-fx-font-size: 14; -fx-pref-width: 200;"/>
+
+    <Button text="Список пациентов"
+            style="-fx-font-size: 14; -fx-pref-width: 200;"/>
+
+
+    <Label text="Программа запустилась успешно! 🎉"
+           style="-fx-text-fill: green; -fx-font-size: 16;"/>
+
+</VBox>
