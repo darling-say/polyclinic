@@ -117,8 +117,6 @@ public class MainApp extends Application {
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 6, 0, 2, 2); " +
                 "-fx-cursor: hand;");
 
-        // УДАЛЕНО: Button scheduleBtn = new Button("Расписание врачей");
-
         Button appointmentsBtn = new Button("Запись на приём");
         appointmentsBtn.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-pref-width: 220px; -fx-padding: 15; " +
                 "-fx-background-color: white; -fx-text-fill: #333; " +
@@ -127,7 +125,6 @@ public class MainApp extends Application {
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 6, 0, 2, 2); " +
                 "-fx-cursor: hand;");
 
-        // После существующих кнопок добавьте:
         Button certificatesBtn = new Button("Медицинские справки");
         certificatesBtn.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-pref-width: 220px; -fx-padding: 15; " +
                 "-fx-background-color: white; -fx-text-fill: #333; " +
@@ -171,15 +168,12 @@ public class MainApp extends Application {
         status.setFont(Font.font("System", FontWeight.BOLD, 16));
         status.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
 
-        // Обработчики (УДАЛЕНО: scheduleBtn.setOnAction)
         doctorsBtn.setOnAction(e -> showDoctorsList());
         patientsBtn.setOnAction(e -> showPatientsList());
         appointmentsBtn.setOnAction(e -> showAppointments());
 
-        // Собираем
         mainLayout.getChildren().addAll(title, buttonGrid, status);
 
-        // Сцена
         Scene scene = new Scene(mainLayout, 900, 700);
         stage.setScene(scene);
         stage.setTitle("Поликлиника - Система регистратуры");
@@ -191,7 +185,7 @@ public class MainApp extends Application {
         return button;
     }
 
-    // Универсальный метод для создания кнопки закрытия
+    //  метод для создания кнопки закрытия
     private Button createCloseButton(Stage stage) {
         Button closeBtn = new Button("Закрыть");
         closeBtn.setStyle("-fx-font-size: 14px; -fx-padding: 10 20; -fx-background-color: #FFB6C1; " +
@@ -209,7 +203,6 @@ public class MainApp extends Application {
         return cancelBtn;
     }
 
-    // МЕТОД ДЛЯ АВТОМАТИЧЕСКОЙ ЗАГЛАВНОЙ БУКВЫ
     private void setupAutoCapitalize(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && !newValue.isEmpty()) {
@@ -691,7 +684,6 @@ public class MainApp extends Application {
             }
         });
 
-        // Квартира - ОБЯЗАТЕЛЬНАЯ
         HBox apartmentBox = new HBox(10);
         apartmentBox.setAlignment(Pos.CENTER_LEFT);
         Label apartmentLabel = createFormLabel.apply("Квартира*:");
@@ -786,7 +778,7 @@ public class MainApp extends Application {
                 apartmentField.setStyle("");
             }
 
-            // Проверка даты рождения
+
             if (birthDate == null) {
                 statusLabel.setText("Укажите дату рождения!");
                 statusLabel.setStyle("-fx-text-fill: red;");
@@ -806,14 +798,14 @@ public class MainApp extends Application {
                 birthDatePicker.setStyle("");
             }
 
-            // Подсветка ошибок
+
             ValidationUtils.highlightInvalidField(surnameField, surnameValidation.isValid());
             ValidationUtils.highlightInvalidField(nameField, nameValidation.isValid());
             ValidationUtils.highlightInvalidField(policyField, policyValidation.isValid());
             ValidationUtils.highlightInvalidField(phoneField, phoneValidation.isValid());
             ValidationUtils.highlightInvalidField(secondNameField, secondNameValidation.isValid());
 
-            // Проверка ошибок
+
             if (!surnameValidation.isValid()) {
                 statusLabel.setText(surnameValidation.getMessage());
                 statusLabel.setStyle("-fx-text-fill: red;");
@@ -866,7 +858,6 @@ public class MainApp extends Application {
                 }
             } catch (PolyclinicException ex) {
                 System.err.println("Ошибка проверки телефона: " + ex.getMessage());
-                // Продолжаем, если не удалось проверить
             }
 
             // Проверка уникальности номера полиса
@@ -880,7 +871,6 @@ public class MainApp extends Application {
                 }
             } catch (PolyclinicException ex) {
                 System.err.println("Ошибка проверки полиса: " + ex.getMessage());
-                // Продолжаем, если не удалось проверить
             }
 
             // Сохранение
@@ -979,7 +969,6 @@ public class MainApp extends Application {
     }
 
 
-    //  ИНТЕРФЕЙС ЗАПИСИ НА ПРИЁМ
     private void showAppointments() {
         Stage appointmentsStage = new Stage();
         appointmentsStage.setTitle("Запись на приём");
@@ -1014,7 +1003,6 @@ public class MainApp extends Application {
                 "-fx-border-color: #FFB6C1; -fx-border-width: 2; " +
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
 
-        // Функция для создания Label
         java.util.function.Function<String, Label> createFormLabel = (text) -> {
             Label label = new Label(text);
             label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #555;");
@@ -1029,7 +1017,6 @@ public class MainApp extends Application {
         Label timeLabel = createFormLabel.apply("Выберите время:");
         Label notesLabel = createFormLabel.apply("Дополнительная информация (необязательно):");
 
-        // ComboBox для врача
         ComboBox<Doctor> doctorComboBox = new ComboBox<>();
         doctorComboBox.setPromptText("Выберите врача...");
         doctorComboBox.setStyle("-fx-pref-width: 300px; -fx-font-family: 'System';");
@@ -1090,13 +1077,10 @@ public class MainApp extends Application {
         HBox buttonBox = new HBox(15, bookButton, cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        // Загружаем данные
+
         loadDoctorsForAppointment(doctorComboBox);
         loadPatientsForAppointment(patientComboBox);
 
-        // Обработчики
-        // Обновите все обработчики:
-// Исправьте все вызовы updateAvailableTimes:
         doctorComboBox.setOnAction(e -> {
             if (doctorComboBox.getValue() != null && datePicker.getValue() != null) {
                 updateAvailableTimes(doctorComboBox.getValue().getId(),
@@ -1155,8 +1139,6 @@ public class MainApp extends Application {
     }
 
 
-// Вспомогательные методы для записи на приём
-
     // Метод возвращает список дней недели, когда у врача есть расписание
     private List<String> getDaysWithSchedule(int doctorId) {
         List<String> days = new ArrayList<>();
@@ -1199,14 +1181,10 @@ public class MainApp extends Application {
                 @Override
                 public String toString(Doctor doctor) {
                     if (doctor == null) return "";
-
-                    // Формируем отчество (если есть)
                     String fullName = doctor.getSurname() + " " + doctor.getName();
                     if (doctor.getSecondName() != null && !doctor.getSecondName().trim().isEmpty()) {
                         fullName += " " + doctor.getSecondName();
                     }
-
-                    // Добавляем ID и специализацию
                     return String.format("ID: %d | %s - %s",
                             doctor.getId(),
                             fullName,
@@ -1388,12 +1366,10 @@ public class MainApp extends Application {
                                  DatePicker datePicker, ComboBox<String> timeComboBox,
                                  TextArea notesArea, Label statusLabel) {
 
-        // Сбрасываем статус
         statusLabel.setText("");
         statusLabel.setStyle("");
         AppLogger.debug("Начало создания записи на приём");
 
-        // ВАЛИДАЦИЯ ПЕРЕД СОЗДАНИЕМ ЗАПИСИ
         // 1. Проверка выбора врача
         if (doctorComboBox.getValue() == null) {
             statusLabel.setText("Выберите врача!");
@@ -1674,7 +1650,6 @@ public class MainApp extends Application {
                 nameField.setStyle("");
             }
 
-            // ВАЛИДАЦИЯ отчества (если не пустое)
             InputValidator.ValidationResult secondNameValidation = InputValidator.validatePatronymic(secondName);
             if (!secondNameValidation.isValid()) {
                 if (hasErrors) {
@@ -1708,7 +1683,6 @@ public class MainApp extends Application {
                 return;
             }
 
-            // ЕСЛИ ВСЕ ПРОВЕРКИ ПРОЙДЕНЫ - СОХРАНЯЕМ С ОБРАБОТКОЙ ИСКЛЮЧЕНИЙ
             try {
                 // ОБНОВЛЯЕМ ВРАЧА
                 doctor.setSurname(surname);
@@ -1730,7 +1704,6 @@ public class MainApp extends Application {
                     statusLabel.setStyle("-fx-text-fill: red;");
                 }
             } catch (PolyclinicException ex) {
-                // Обработка нашего кастомного исключения
                 System.err.println("Ошибка поликлиники: " + ex.getMessage());
                 ex.printStackTrace();
                 statusLabel.setText("Ошибка: " + ex.getErrorCode().getDescription() +
@@ -2111,7 +2084,6 @@ public class MainApp extends Application {
                 return;
             }
 
-            // Собираем адрес с автоформатированием
             String address = "";
             if (!streetInput.isEmpty() && !houseInput.isEmpty() && !apartmentInput.isEmpty()) {
                 // Автоматически форматируем улицу
@@ -2311,7 +2283,7 @@ public class MainApp extends Application {
     }
 
 
-    //ВСПОМОГАТЕЛЬНЫЙ МЕТОД: Загрузка и отображение расписания
+    //Загрузка и отображение расписания
     private void loadAndDisplaySchedule(int doctorId, VBox scheduleContainer) {
         scheduleContainer.getChildren().clear();
 
@@ -2593,12 +2565,10 @@ public class MainApp extends Application {
         Label statusLabel = new Label("");
         statusLabel.setStyle("-fx-font-size: 12px;");
 
-        // Кнопка сохранения - МЯТНАЯ
         Button saveBtn = new Button("Сохранить");
         saveBtn.setStyle("-fx-font-size: 14px; -fx-padding: 10 20; -fx-background-color: #98FB98; " +
                 "-fx-text-fill: #333; -fx-background-radius: 10; -fx-border-radius: 10;");
 
-        // Кнопка отмены - РОЗОВАЯ
         Button cancelBtn = new Button("Отмена");
         cancelBtn.setStyle("-fx-font-size: 14px; -fx-padding: 10 20; -fx-background-color: #FFB6C1; " +
                 "-fx-text-fill: white; -fx-background-radius: 10; -fx-border-radius: 10;");
@@ -2686,13 +2656,13 @@ public class MainApp extends Application {
                 String userMessage;
                 switch (ex.getErrorCode()) {
                     case SCHEDULE_CONFLICT:
-                        userMessage = "❌ Конфликт расписания: " + ex.getAdditionalInfo();
+                        userMessage = "Конфликт расписания: " + ex.getAdditionalInfo();
                         break;
                     case DATABASE_ERROR:
-                        userMessage = "❌ Ошибка базы данных: " + ex.getAdditionalInfo();
+                        userMessage = "Ошибка базы данных: " + ex.getAdditionalInfo();
                         break;
                     default:
-                        userMessage = "❌ Ошибка: " + ex.getErrorCode().getDescription();
+                        userMessage = "Ошибка: " + ex.getErrorCode().getDescription();
                 }
 
                 statusLabel.setText(userMessage);
@@ -2755,15 +2725,11 @@ public class MainApp extends Application {
         Stage stage = new Stage();
         stage.setTitle(title);
 
-        // Настройки для корректной работы в полноэкранном режиме
         stage.initModality(Modality.APPLICATION_MODAL); // Модальное окно
         stage.initStyle(StageStyle.UTILITY); // Простой стиль
 
-        // Устанавливаем минимальные размеры
         stage.setMinWidth(minWidth);
         stage.setMinHeight(minHeight);
-
-        // При закрытии скрываем, а не закрываем полностью
         stage.setOnCloseRequest(e -> {
             e.consume(); // Отменяем стандартное закрытие
             stage.hide(); // Скрываем окно
@@ -2772,7 +2738,6 @@ public class MainApp extends Application {
         return stage;
     }
 
-    // Форма редактирования расписания
     // Форма редактирования расписания
     private void showEditScheduleForm(Schedule schedule, int doctorId, VBox scheduleContainer) {
         Stage formStage = new Stage();
@@ -2923,7 +2888,6 @@ public class MainApp extends Application {
                     return;
                 }
 
-                // Обновляем данные расписания
                 schedule.setDayOfWeek(DayOfWeek.of(dayNumber));
                 schedule.setStartTime(startTime);
                 schedule.setEndTime(endTime);
@@ -2934,7 +2898,6 @@ public class MainApp extends Application {
                     statusLabel.setText("Расписание успешно обновлено!");
                     statusLabel.setStyle("-fx-text-fill: green;");
 
-                    // Закрываем окно и обновляем список
                     PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
                     pause.setOnFinished(event -> {
                         formStage.close();
@@ -2972,25 +2935,20 @@ public class MainApp extends Application {
         formStage.show();
     }
 
-    // Вспомогательный метод для проверки конфликта с исключением
-    // Вспомогательный метод для проверки конфликта с исключением
+    //метод для проверки конфликта с исключением
     private boolean hasScheduleConflictExcluding(int doctorId, int excludeScheduleId,
                                                  DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
         try {
             ScheduleDAO scheduleDAO = new ScheduleDAO();
-
-            // Получаем все расписания врача
             List<Schedule> allSchedules = scheduleDAO.getScheduleByDoctor(doctorId);
 
             // Проверяем конфликты, исключая текущее расписание
             for (Schedule s : allSchedules) {
                 if (s.getId() == excludeScheduleId) {
-                    continue; // Пропускаем редактируемое расписание
+                    continue;
                 }
 
-                // Проверяем, совпадает ли день недели
                 if (s.getDayOfWeek() == dayOfWeek) {
-                    // Проверяем пересечение времени
                     boolean timeOverlap = !(endTime.isBefore(s.getStartTime()) ||
                             startTime.isAfter(s.getEndTime()));
 
@@ -3006,7 +2964,6 @@ public class MainApp extends Application {
 
         } catch (PolyclinicException ex) {
             System.err.println("Ошибка при проверке конфликта расписания: " + ex.getMessage());
-            // В случае ошибки считаем, что есть конфликт (безопасный подход)
             return true;
         } catch (Exception e) {
             System.err.println("Неизвестная ошибка при проверке конфликта: " + e.getMessage());
@@ -3278,7 +3235,6 @@ public class MainApp extends Application {
                     if (appointmentDAO.deleteAppointment(appointment.getId())) {
                         showInfo("Запись успешно отменена!");
 
-                        // Обновляем таблицу через 0.5 секунды
                         new Timer().schedule(new TimerTask() {
                             @Override
                             public void run() {
@@ -3477,21 +3433,17 @@ public class MainApp extends Application {
                     endDatePicker.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 }
 
-                // Проверка, что период не слишком длинный
                 long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
                 if (daysBetween > 365) {
                     errors.add("Период болезни не может превышать 1 год");
                     endDatePicker.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 }
-
-                // Проверка, что дата окончания не в слишком далеком будущем
                 if (endDate.isAfter(LocalDate.now().plusYears(1))) {
                     errors.add("Дата окончания болезни не может быть более чем через год от сегодняшнего дня");
                     endDatePicker.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 }
             }
 
-            // Если есть ошибки - показываем их
             if (!errors.isEmpty()) {
                 StringBuilder errorMessage = new StringBuilder("Исправьте ошибки:\n");
                 for (String error : errors) {
@@ -3537,7 +3489,6 @@ public class MainApp extends Application {
                     statusLabel.setText("Приём завершён и справка выдана!");
                     statusLabel.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
 
-                    // Закрываем окно через 1.5 секунды
                     PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
                     pause.setOnFinished(event -> {
                         completeStage.close();
@@ -3635,7 +3586,6 @@ public class MainApp extends Application {
                 @Override
                 public String toString(Patient patient) {
                     if (patient == null) return "";
-                    // Patient наследует от Person, поэтому можно использовать методы Person
                     return patient.getSurname() + " " + patient.getName().charAt(0) + ".";
                 }
 
@@ -3663,12 +3613,10 @@ public class MainApp extends Application {
                 @Override
                 public String toString(Patient patient) {
                     if (patient == null) return "";
-                    // Формируем полное имя: фамилия, имя, отчество (если есть)
                     String fullName = patient.getSurname() + " " + patient.getName();
                     if (patient.getSecondName() != null && !patient.getSecondName().trim().isEmpty()) {
                         fullName += " " + patient.getSecondName();
                     }
-                    // Добавляем номер полиса
                     fullName += " (Полис: " + String.format("%06d", patient.getPolicy()) + ")";
                     return fullName;
                 }
@@ -4103,8 +4051,6 @@ public class MainApp extends Application {
             }
         };
 
-        // Обработчики событий
-
         // 1. При выборе пациента из ComboBox
         patientComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             boolean hasSelection = newVal != null;
@@ -4290,7 +4236,6 @@ public class MainApp extends Application {
         doctorComboBox.setPrefWidth(300);
         loadDoctorsForComboBox(doctorComboBox);
 
-        // СТАТУС ЛАБЕЛ
         Label statusLabel = new Label("");
         statusLabel.setStyle("-fx-font-size: 12px;");
 
@@ -4309,7 +4254,6 @@ public class MainApp extends Application {
         HBox buttonBox = new HBox(15, saveBtn, cancelBtn);
         buttonBox.setAlignment(Pos.CENTER);
 
-        // ОБРАБОТЧИК СОХРАНЕНИЯ
         saveBtn.setOnAction(e -> {
             // Сбрасываем стили ошибок
             diagnosisComboBox.setStyle("");
@@ -4374,8 +4318,6 @@ public class MainApp extends Application {
                 }
             }
 
-            // ПРЕДУПРЕЖДЕНИЕ (не ошибка): проверка, что справка выдается на период, когда пациент был на приеме
-            // Эта проверка только для информации, не блокирует сохранение
             if (startDate != null) {
                 try {
                     AppointmentDAO appointmentDAO = new AppointmentDAO();
@@ -4387,16 +4329,13 @@ public class MainApp extends Application {
                             .max(LocalDateTime::compareTo);
 
                     if (lastAppointment.isPresent() && startDate.isBefore(lastAppointment.get().toLocalDate())) {
-                        // Только предупреждение, не ошибка
                         periodInfoLabel.setText("Внимание: справка выдается на период, когда пациент не был на приеме!");
                         periodInfoLabel.setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
                     } else {
-                        // Сбрасываем предупреждение, если оно было
                         periodInfoLabel.setText("");
                         periodInfoLabel.setStyle("");
                     }
                 } catch (Exception ex) {
-                    // Игнорировать, если не удалось проверить
                     System.out.println("Не удалось проверить историю приемов: " + ex.getMessage());
                 }
             }
@@ -4411,8 +4350,6 @@ public class MainApp extends Application {
                 statusLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
                 return;
             }
-
-            // ВСЕ ПРОВЕРКИ ПРОЙДЕНЫ - СОХРАНЯЕМ
             try {
                 MedicalCertificate certificate = new MedicalCertificate();
                 certificate.setPatientPolicy(patient.getPolicy());
@@ -4493,14 +4430,11 @@ public class MainApp extends Application {
         formStage.show();
     }
 
-    // Добавьте этот метод в класс MainApp
     private void loadCertificatesForPatient(TableView<MedicalCertificate> tableView, int patientPolicy) {
         try {
             MedicalCertificateDAO certificateDAO = new MedicalCertificateDAO();
             List<MedicalCertificate> certificates = certificateDAO.getCertificatesByPatient(patientPolicy);
             tableView.getItems().setAll(certificates);
-
-            // Опционально: сообщение если нет справок
             if (certificates.isEmpty()) {
                 tableView.setPlaceholder(new Label("У пациента нет медицинских справок"));
             }
@@ -4509,8 +4443,6 @@ public class MainApp extends Application {
             tableView.setPlaceholder(new Label("Ошибка загрузки справок: " + e.getMessage()));
         }
     }
-
-
 
     private void showCertificateDetails(MedicalCertificate certificate) {
         Stage detailsStage = new Stage();
@@ -5001,10 +4933,8 @@ public class MainApp extends Application {
                 com.itextpdf.kernel.pdf.PdfDocument pdfDoc = new com.itextpdf.kernel.pdf.PdfDocument(writer);
                 com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDoc);
 
-                // 3. УСТАНАВЛИВАЕМ ШРИФТ ДЛЯ ВСЕГО ДОКУМЕНТА
                 document.setFont(font);
 
-                // 4. ЗАГОЛОВОК
                 com.itextpdf.layout.element.Paragraph title = new com.itextpdf.layout.element.Paragraph("МЕДИЦИНСКАЯ СПРАВКА")
                         .setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER)
                         .setBold()
@@ -5013,7 +4943,6 @@ public class MainApp extends Application {
 
                 document.add(new com.itextpdf.layout.element.Paragraph(" ").setFont(font));
 
-                // 5. ИНФОРМАЦИЯ О СПРАВКЕ
                 document.add(new com.itextpdf.layout.element.Paragraph("Номер справки: МС-" + certificate.getId()).setFont(font));
 
                 document.add(new com.itextpdf.layout.element.Paragraph("Дата выдачи: " +
@@ -5022,7 +4951,6 @@ public class MainApp extends Application {
 
                 document.add(new com.itextpdf.layout.element.Paragraph(" ").setFont(font));
 
-                // 6. ИНФОРМАЦИЯ О ПАЦИЕНТЕ
                 com.itextpdf.layout.element.Paragraph patientInfo = new com.itextpdf.layout.element.Paragraph("ПАЦИЕНТ:")
                         .setBold()
                         .setFontSize(12)
@@ -5250,9 +5178,8 @@ public class MainApp extends Application {
             return false;
         }
     }
-    // Добавьте этот метод в класс MainApp (можно в конце класса)
+
     private ObservableList<String> getDiagnosesList() {
-        // Список из 30 заболеваний по алфавиту (русский алфавит)
         return FXCollections.observableArrayList(
                 "Аллергический ринит",
                 "Ангина",
