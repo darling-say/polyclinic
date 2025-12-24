@@ -56,7 +56,6 @@ public class AddressValidator {
     private static String standardizeAddress(String address) {
         String result = address;
 
-        // Убираем лишние пробелы
         result = result.replaceAll("\\s+", " ");
 
         // Стандартизируем сокращения
@@ -121,8 +120,7 @@ public class AddressValidator {
         boolean hasHouse = lower.matches(".*д\\.\\s*\\d+|дом\\s*\\d+.*");
         boolean hasApartment = lower.matches(".*кв\\.\\s*\\d+|квартира\\s*\\d+.*");
 
-        // Не обязательно иметь все три компонента
-        // Но желательно иметь хотя бы улицу и дом
+     
         return hasStreet && hasHouse;
     }
 }
