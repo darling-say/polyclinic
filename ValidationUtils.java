@@ -48,12 +48,9 @@ public class ValidationUtils {
         return new TextFormatter<>(filter);
     }
 
-    // НОВЫЙ ФИЛЬТЕР ДЛЯ УЛИЦЫ (только буквы и дефис)
     public static TextFormatter<String> createStreetFormatter() {
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String newText = change.getControlNewText();
-            // Разрешаем: буквы, пробелы, дефис, точку (для "ул.", "пр.")
-            // Дефис не может быть первым или последним
             if (newText.isEmpty() || newText.matches("^[а-яА-ЯёЁa-zA-Z][а-яА-ЯёЁa-zA-Z\\s.-]*$")) {
                 return change;
             }
@@ -61,12 +58,9 @@ public class ValidationUtils {
         };
         return new TextFormatter<>(filter);
     }
-
-    // НОВЫЙ ФИЛЬТЕР ДЛЯ КВАРТИРЫ (только цифры)
     public static TextFormatter<String> createApartmentFormatter() {
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String newText = change.getControlNewText();
-            // Только цифры, максимум 4 цифры (обычно квартиры до 9999)
             if (newText.isEmpty() || (newText.matches("\\d*") && newText.length() <= 4)) {
                 return change;
             }
@@ -92,7 +86,6 @@ public class ValidationUtils {
             return new InputValidator.ValidationResult(false, "Название улицы слишком длинное");
         }
 
-        // Проверка на недопустимые символы
         if (!trimmed.matches("^[а-яА-ЯёЁa-zA-Z][а-яА-ЯёЁa-zA-Z\\s.-]*$")) {
             return new InputValidator.ValidationResult(false,
                     "Улица может содержать только буквы, пробелы, дефис и точку");
@@ -142,7 +135,6 @@ public class ValidationUtils {
         return new InputValidator.ValidationResult(true, "OK");
     }
 
-    // ВАЛИДАЦИЯ КВАРТИРЫ
     public static InputValidator.ValidationResult validateApartment(String apartment) {
         // Квартира может быть пустой
         if (apartment == null || apartment.trim().isEmpty()) {
@@ -198,11 +190,7 @@ public class ValidationUtils {
         }
 
         String trimmed = street.trim();
-
-        // Убираем лишние пробелы
         trimmed = trimmed.replaceAll("\\s+", " ");
-
-        // Пробуем определить тип улицы
         String formatted = detectStreetType(trimmed);
 
         if (formatted != null) {
@@ -314,23 +302,17 @@ public class ValidationUtils {
 
         String lowerName = streetName.toLowerCase().trim();
 
-        // Сначала проверяем, есть ли уже префикс в названии
         for (Map.Entry<String, String> entry : STREET_TYPES.entrySet()) {
             String type = entry.getKey();
             String abbr = entry.getValue();
 
-            // Если название начинается с типа улицы (например, "проспект Ленина")
             if (lowerName.startsWith(type + " ")) {
                 return abbr + " " + streetName.substring(type.length()).trim();
             }
-
-            // Если название содержит тип в начале с точкой (например, "пр. Мира")
             if (lowerName.startsWith(abbr + " ")) {
-                return streetName; // Уже отформатировано
+                return streetName;
             }
         }
-
-        // Если не нашли тип улицы, считаем что это просто улица
         return null;
     }
 
